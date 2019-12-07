@@ -40,8 +40,7 @@
   (loop [vec input
          pair (nth pairs 0)
          nextpair 1]
-    (let [vec (assoc vec 1 (nth pair 0)
-                     vec 2 (nth pair 1))]
+    (let [vec (assoc vec 1 (nth pair 0) 2 (nth pair 1))]
       (if (== (computer vec) target)
         pair
         (recur input (nth pairs nextpair) (inc nextpair))))))
