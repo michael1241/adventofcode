@@ -21,7 +21,7 @@
   (* (- in 1) (- in 1)))
 
 (defn covered-points
-  "takes start and end coords and line plane; returns list of traversed coords"
+  "takes start and end coords and line plane; returns list of traversed coords and step counts"
   [start end plane] ;plane 0 is x, plane 1 is y
   (let [diff (- (nth end plane) (nth start plane))]
     (let [changecoords (range (nth start plane) (+ (nth end plane) (direc diff)) (direc diff))
@@ -31,21 +31,21 @@
         (map vector samecoords changecoords)))))
 
 (defn get-end-and-plane
-  "takes the start coord and instruction; returns end coord and plane"
+  "takes the start coord and instruction; returns end coord and plane and steps"
   [start instruction]
   (let [magnitude (Integer/parseInt (subs instruction 1))
         direction (subs instruction 0 1)]
     (case direction
-    "U" [[(nth start 0) (+ (nth start 1) magnitude)] 1]
-    "D" [[(nth start 0) (- (nth start 1) magnitude)] 1]
-    "L" [[(- (nth start 0) magnitude) (nth start 1)] 0]
-    "R" [[(+ (nth start 0) magnitude) (nth start 1)] 0])))
+    "U" [[(nth start 0) (+ (nth start 1) magnitude)] 1 magnitude]
+    "D" [[(nth start 0) (- (nth start 1) magnitude)] 1 magnitude]
+    "L" [[(- (nth start 0) magnitude) (nth start 1)] 0 magnitude]
+    "R" [[(+ (nth start 0) magnitude) (nth start 1)] 0 magnitude])))
 
 (defn define-line
-  "takes start coord and instruction; returns list of traversed coords"
+  "takes start coord and instruction; returns list of traversed coords and step count"
   [start instruction]
   (let [end-and-plane (get-end-and-plane start instruction)]
-    (covered-points start (first end-and-plane) (last end-and-plane))))
+    (covered-points start (nth end-and-plane 0) (nth end-and-plane 1))))
 
 (defn record-path
   "takes list of instructions; returns set of traversed coords"
