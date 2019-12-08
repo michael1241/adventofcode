@@ -1,5 +1,5 @@
-(ns day1
-  (:gen-class))
+(ns adventofcode.day1
+  (:require [clojure.java.io :as io] ))
 
 (defn fuel-req
   "work out how much fuel is needed based on mass"
@@ -17,6 +17,6 @@
         (recur newmass (conj totalfuel newmass))))))
 
 (defn f []
-   (with-open [rdr (clojure.java.io/reader "inputday1")]
-   (reduce + (map fuel-req-recur (map read-string (line-seq rdr))))))
-(f)
+  (with-open [rdr (io/reader (io/resource "inputday1"))]
+    (reduce + (map fuel-req-recur (map read-string (line-seq rdr))))))
+
