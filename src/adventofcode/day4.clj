@@ -18,19 +18,18 @@
 
 (defn equality
   [nums]
-  (= (nth nums 0) (nth nums 1)))
+  (let [[d1 d2] nums]
+    (= d1 d2)))
 
 (defn equality-quads
   [nums]
-  (let [d1 (nth nums 0)
-        d2 (nth nums 1)
-        d3 (nth nums 2)
-        d4 (nth nums 3)]
+  (let [[d1 d2 d3 d4] nums]
     (and (= d2 d3) (not= d1 d2) (not= d3 d4))))
 
 (defn increasing
   [nums]
-  (<= (nth nums 0) (nth nums 1)))
+  (let [[d1 d2] nums]
+    (<= d1 d2)))
 
 (defn adjacent-digits-equal
   [pairs]
