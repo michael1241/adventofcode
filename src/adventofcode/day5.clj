@@ -31,19 +31,19 @@
       1 (assoc vec (first in3) (+ (get-for-mode vec in1) (get-for-mode vec in2)))
       2 (assoc vec (first in3) (* (get-for-mode vec in1) (get-for-mode vec in2)))
       3 (assoc vec (first in1) user-input)
-      4 (println (get-for-mode vec in1))
+      4 (get-for-mode vec in1)
       99 (first vec))))
 
 (defn controller
   [v]
   (loop [vec v
          pos 0]
-    (let [[instruction modes] (get-instruction-and-modes (nth vec pos))]
-      (let [pnum (get param-dict instruction)]
-        (let [indexes (get-indexes vec pos pnum)]
-          (let [indexmodes (map vector indexes modes)]
-            (let [newvec (new-vec vec instruction indexmodes)]
-              (if (and (not (vector? newvec)) (not (nil? newvec)))
-                newvec
-                (recur (or newvec vec) (+ pos pnum))))))))))
+    (let [[instruction modes] (get-instruction-and-modes (nth vec pos))
+          pnum                (get param-dict instruction)
+          indexes             (get-indexes vec pos pnum)
+          indexmodes          (map vector indexes modes)
+          newvec              (new-vec vec instruction indexmodes)]
+            (if (and (not (vector? newvec)) (not (nil? newvec)))
+              newvec
+              (recur (or newvec vec) (+ pos pnum))))))
 (controller TEST)
