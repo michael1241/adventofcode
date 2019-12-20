@@ -11,10 +11,10 @@
 
 (defn get-for-mode
   "take index, mode and vector; return correct value from vector"
-  [vec index mode]
-  (if (zero? mode)
-    (nth vec index)
-    index))
+  [vec indexmode]
+  (if (zero? (last indexmode))
+    (nth vec (first indexmode))
+    (first indexmode)))
 
 (defn get-indexes
   "take vector, position and param numbers; returns indexed values"
@@ -25,24 +25,25 @@
 
 (defn new-vec
   "takes current vector, operation and inputs; returns new vector or terminator value"
-  [vec operation indexmodes]
-  (println indexmodes)
+  [vec instruction indexmodes]
   (let [[in1 in2 in3] indexmodes]
-    (println in1 in2 in3 operation indexmodes)
-    (case operation
-      1 (assoc vec in3 (+ in1 in2))
-      2 (assoc vec in3 (* in1 in2))
-      3 (assoc vec in1 user-input)
-      4 in1
+    (case instruction
+      1 (assoc vec (first in3) (+ (get-for-mode vec in1) (get-for-mode vec in2)))
+      2 (assoc vec (first in3) (* (get-for-mode vec in1) (get-for-mode vec in2)))
+      3 (assoc vec (first in1) user-input)
+      4 (println (get-for-mode vec in1))
       99 (first vec))))
 
 (defn controller
-  [vector]
-  (loop [vec vector
+  [v]
+  (loop [vec v
          pos 0]
     (let [[instruction modes] (get-instruction-and-modes (nth vec pos))]
-      (let [indexes (get-indexes vec pos (get param-dict instruction))]
-        (println indexes modes)
-        (let [indexmodes (map vector modes indexes)]
-          (println (first indexmodes)))))))
+      (let [pnum (get param-dict instruction)]
+        (let [indexes (get-indexes vec pos pnum)]
+          (let [indexmodes (map vector indexes modes)]
+            (let [newvec (new-vec vec instruction indexmodes)]
+              (if (and (not (vector? newvec)) (not (nil? newvec)))
+                newvec
+                (recur (or newvec vec) (+ pos pnum))))))))))
 (controller TEST)
