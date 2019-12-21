@@ -3,10 +3,10 @@
 
 (def orbits-string
   (-> "inputday6"
-    (io/resource)
-    (io/reader)
-    (slurp)
-    (clojure.string/split-lines)))
+    io/resource
+    io/reader
+    slurp
+    clojure.string/split-lines))
 
 (defn orbits-string-to-orbits
   [in]
