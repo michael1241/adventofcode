@@ -19,11 +19,12 @@
   [orbits
    firstbody]
   (loop [body firstbody
+         path []
          chain 0]
     (let [nextbody (get orbits body)]
       (if (nil? nextbody)
-        chain
-        (recur nextbody (inc chain))))))
+        [chain path]
+        (recur nextbody (conj path nextbody) (inc chain))))))
 
 (defn count-system
   [orbits]
@@ -32,4 +33,13 @@
          total 0]
     (if (nil? orbit)
       total
-      (recur (first remaining) (rest remaining) (+ total (trace orbits (first orbit)))))))
+      (recur (first remaining) (rest remaining) (+ total (first (trace orbits (first orbit))))))))
+
+(def santapath (last (trace orbits "SAN"))) ;250 long
+(def santaset (set santapath))
+
+(def mypath (last (trace orbits "YOU"))) ;253 long
+(def myset (set mypath))
+
+(count (clojure.set/intersection santaset myset)) ;62
+(- (+ 250 253) (* 2 62)) ;379
