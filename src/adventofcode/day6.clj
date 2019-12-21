@@ -38,11 +38,11 @@
          total 0]
     (if (nil? orbit)
       total
-      (recur (first remaining) (rest remaining) (as-> orbit o
-                                                    (first o)
-                                                    (trace orbits o)
-                                                    (first o)
-                                                    (+ total o))))))
+      (recur (first remaining) (rest remaining) (->> orbit
+                                                    first
+                                                    (trace orbits)
+                                                    first
+                                                    (+ total))))))
 
 (def santapath (last (trace orbits "SAN"))) ;250 long
 (def santaset (set santapath))
