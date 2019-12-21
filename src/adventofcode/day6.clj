@@ -1,7 +1,12 @@
 (ns adventofcode.day6
   (:require [clojure.java.io :as io]))
 
-(def orbits-string (clojure.string/split-lines (slurp (io/reader (io/resource "inputday6")))))
+(def orbits-string
+  (-> "inputday6"
+    (io/resource)
+    (io/reader)
+    (slurp)
+    (clojure.string/split-lines)))
 
 (defn orbits-string-to-orbits
   [in]
