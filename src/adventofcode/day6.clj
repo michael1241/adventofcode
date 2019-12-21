@@ -1,9 +1,9 @@
 (ns adventofcode.day6
   (:require [clojure.java.io :as io]))
 
-(def orbitsstring (clojure.string/split-lines (slurp (io/reader (io/resource "inputday6")))))
+(def orbits-string (clojure.string/split-lines (slurp (io/reader (io/resource "inputday6")))))
 
-(defn orbitsstring-to-orbits
+(defn orbits-string-to-orbits
   [in]
   (loop [orbit (first in)
          remaining (rest in)
@@ -13,7 +13,7 @@
       (recur (first remaining) (rest remaining) (assoc orbits (subs orbit 4 7) (subs orbit 0 3))))))
 
 ;map where key orbits value
-(def orbits (orbitsstring-to-orbits orbitsstring))
+(def orbits (orbits-string-to-orbits orbits-string))
 
 (defn trace
   [orbits
