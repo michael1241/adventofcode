@@ -1,0 +1,35 @@
+(ns adventofcode.day6
+  (:require [clojure.java.io :as io]))
+
+(def orbitsstring (clojure.string/split-lines (slurp (io/reader (io/resource "inputday6")))))
+
+(defn orbitsstring-to-orbits
+  [in]
+  (loop [orbit (first in)
+         remaining (rest in)
+         orbits {}]
+    (if (nil? orbit)
+      orbits
+      (recur (first remaining) (rest remaining) (assoc orbits (subs orbit 4 7) (subs orbit 0 3))))))
+
+;map where key orbits value
+(def orbits (orbitsstring-to-orbits orbitsstring))
+
+(defn trace
+  [orbits
+   firstbody]
+  (loop [body firstbody
+         chain 0]
+    (let [nextbody (get orbits body)]
+      (if (nil? nextbody)
+        chain
+        (recur nextbody (inc chain))))))
+
+(defn count-system
+  [orbits]
+  (loop [orbit (first orbits)
+         remaining (rest orbits)
+         total 0]
+    (if (nil? orbit)
+      total
+      (recur (first remaining) (rest remaining) (+ total (trace orbits (first orbit)))))))
