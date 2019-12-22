@@ -32,6 +32,7 @@
   (->> pixel-stack
       (filter #(not (= % \2)))
       first))
+;(some #{\1 \2} [\1 \2 \3 \4]) idiomatic way
 
 (def image-pixels (map first-non-transparent (apply map vector layers)))
 
