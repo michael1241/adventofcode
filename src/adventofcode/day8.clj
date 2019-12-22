@@ -26,3 +26,13 @@
 (apply min-key first layer-counts) ;(5 15 130)
 
 (* 15 130) ;1950
+
+(defn first-non-transparent
+  [pixel-stack]
+  (->> pixel-stack
+      (filter #(not (= % \2)))
+      first))
+
+(def image-pixels (map first-non-transparent (apply map vector layers)))
+
+(map println (partition 25 image-pixels))
