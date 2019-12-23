@@ -48,4 +48,3 @@
             (if (= (get newvec :type) :terminator)
               (get newvec :term)
               (recur (get newvec :vec) (+ pos pnum))))))
-(controller TEST)
