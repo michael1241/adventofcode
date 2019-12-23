@@ -42,14 +42,15 @@
   (let [g (get-gradient [x1 y1] [x2 y2])
         b (get-b [x1 y1] g)]
     (and (= y3 (+ (* x3 g) b))
-         (< (min x1 x2) x3 (max x1 x2))
-         (< (min y1 y2) y3 (max y1 y2)))))
+         (<= (min x1 x2) x3 (max x1 x2))
+         (<= (min y1 y2) y3 (max y1 y2))
+         (not (or (= [x1 y1] [x3 y3]) (= [x2 y2] [x3 y3]))))))
 
 (defn any-block?
   [[[x1 y1] [x2 y2]]]
   (some true? (map #(blocking? [[x1 y1] [x2 y2]] %) asteroid-coords)))
 
-(def clear-paths (filter any-block? asteroid-pairs))
+(def clear-paths (remove any-block? asteroid-pairs))
 
 (def most-connections
   (->> clear-paths
