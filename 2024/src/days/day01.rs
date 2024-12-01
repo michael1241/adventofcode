@@ -10,12 +10,12 @@ pub fn solve() -> SolutionPair {
     let (mut col1, mut col2): (Vec<_>, Vec<_>) = pairs.into_iter().unzip();
     col1.sort();
     col2.sort();
-    let diffs: Vec<_> = col1.iter().zip(col2.iter()).map(|(&x, &y)| (x - y).abs()).collect();
-    let sol1: i32 = diffs.iter().sum();
+    let diffs = col1.iter().zip(col2.iter()).map(|(&x, &y)| (x - y).abs());
+    let sol1: i32 = diffs.sum();
 
     // first list has no duplicates
     let counter2 = col2.iter().collect::<Counter<_>>();
-    let sol2: usize = col1.iter().map(|x| (*x as usize) * counter2[x]).collect::<Vec<_>>().into_iter().sum();
+    let sol2: usize = col1.iter().map(|x| (*x as usize) * counter2[x]).sum();
 
     (Solution::from(sol1), Solution::from(sol2))
 }
