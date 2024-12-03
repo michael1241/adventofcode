@@ -19,8 +19,7 @@ pub fn solve() -> SolutionPair {
             ("don't()", "") => (0, 0, false),
             (i1, i2) => (i1.parse::<u64>().unwrap(), i2.parse::<u64>().unwrap(), doing),
         };
-        let mut doing: bool = new_doing;
-        println!("{:?}", doing);
+        doing = new_doing;
         let (mut add1, mut add2) = update_sols(val1, val2, doing);
         sol1 = sol1 + add1;
         sol2 = sol2 + add2;
