@@ -10,25 +10,26 @@ pub fn solve() -> SolutionPair {
 
     let mut sol1: u64 = 0;
     let mut sol2: u64 = 0;
-    let mut doing: u64 = 1;
+    let mut doing: bool = true;
 
     for (_, [a, b]) in re.captures_iter(&input).map(|x| x.extract()) {
 
-        let (val1, val2, doing) = match (a, b) {
-            ("do()", "") => (0, 0, 1),
-            ("don't()", "") => (0, 0, 0),
+        let (val1, val2, new_doing) = match (a, b) {
+            ("do()", "") => (0, 0, true),
+            ("don't()", "") => (0, 0, false),
             (i1, i2) => (i1.parse::<u64>().unwrap(), i2.parse::<u64>().unwrap(), doing),
         };
+        let mut doing: bool = new_doing;
         println!("{:?}", doing);
-        let (mut add1, mut add2) = update_sols(val1, val2, &doing);
+        let (mut add1, mut add2) = update_sols(val1, val2, doing);
         sol1 = sol1 + add1;
         sol2 = sol2 + add2;
     }
 
 
-    fn update_sols(a: u64, b: u64, doing: &u64) -> (u64, u64) {
+    fn update_sols(a: u64, b: u64, doing: bool) -> (u64, u64) {
         let value: u64 = a * b;
-        if *doing == 1 {
+        if doing {
             (value, value)
         } else {
             (value, 0)
