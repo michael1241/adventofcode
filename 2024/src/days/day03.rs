@@ -20,7 +20,7 @@ pub fn solve() -> SolutionPair {
             (i1, i2) => (i1.parse::<u64>().unwrap(), i2.parse::<u64>().unwrap(), doing),
         };
         doing = new_doing;
-        let (mut add1, mut add2) = update_sols(val1, val2, doing);
+        let (add1, add2) = update_sols(val1, val2, doing);
         sol1 = sol1 + add1;
         sol2 = sol2 + add2;
     }
