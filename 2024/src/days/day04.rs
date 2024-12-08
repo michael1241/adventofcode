@@ -22,14 +22,10 @@ fn count_matches(path: Vec<&char>) -> u64 {
     let mut total: u64 = 0;
     for view in path.into_iter().tuple_windows::<(_, _, _, _)>() {
         match view {
-            ('X', 'M', 'A', 'S') => increment_counter(&mut total, 1),
-            ('S', 'A', 'M', 'X') => increment_counter(&mut total, 1),
+            ('X', 'M', 'A', 'S') => *&mut total += 1,
+            ('S', 'A', 'M', 'X') => *&mut total += 1,
             _ => ()
         };
     }
     return total
-}
-
-fn increment_counter(counter: &mut u64, amount: u64) {
-    *counter += amount;
 }
